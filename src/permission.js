@@ -1,8 +1,5 @@
 import router from './router'
 import store from './store'
-import {
-	Message
-} from 'element-ui'
 import NProgress from 'nprogress' // progress bar
 import 'nprogress/nprogress.css' // progress bar style
 import {
@@ -35,28 +32,13 @@ router.beforeEach(async (to, from, next) => {
 			NProgress.done()
 		} else {
 			// determine whether the user has obtained his permission roles through getInfo
-
-
-			const hasRoles = store.getters.roles && store.getters.roles.length > 0
-
-			if (hasRoles) {
+			const hasCodes = store.getters.codes && store.getters.codes.length > 0
+			if (hasCodes) {
 				next()
 			} else {
-				console.log('next2')
-				try {
-				
-					console.log('next3')
-				
-					const {
-						roles
-					} = await store.dispatch('user/getInfo')
-					//generate accessible routes map based on roles
-					const accessRoutes = await store.dispatch('permission/generateRoutes', roles)
-					// 	console.log('accessRoutes=',accessRoutes)
-					//   // dynamically add accessible routes
-					router.addRoutes(accessRoutes)
-					// hack method to ensure that addRoutes is complete
-					// set the replace: true, so the navigation will not leave a history record
+				try {				
+					const res = await store.dispatch('user/getInfo')
+					store.dispatch('permission/setCodes', res.node_codes)
 					next({
 						...to,
 						replace: true

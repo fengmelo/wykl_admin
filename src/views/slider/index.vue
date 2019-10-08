@@ -72,13 +72,6 @@
             <el-option v-for="(item,index) in statusOptions" :key="index" :label="item.label" :value="item.value" />
           </el-select>
         </el-form-item>
-				<el-form-item label="关联商品">
-					<el-autocomplete
-						v-model="product"
-						:fetch-suggestions="querySearchAsync"
-						placeholder="请输入内容"
-						@select="handleSelect"
-					></el-autocomplete>
 				</el-form-item>
 				<el-form-item label="上传">
           <upload :on-success="onSuccess" ref="upload"></upload>
@@ -164,8 +157,6 @@ export default {
     onSuccess(item) {
       this.temp = Object.assign(this.temp, item);
     },
-    querySearchAsync() {},
-    handleSelect() {},
     getList() {
       this.listLoading = true;
       fetchList(this.listQuery).then(response => {

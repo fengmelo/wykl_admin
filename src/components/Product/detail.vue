@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<editor v-model="content" ></editor>
+		<editor :value.sync="content" ></editor>
 		<div style="margin-top:50px;">
 			<el-button type="primary"  plain @click="pre">上一步</el-button>
 			<el-button  type="primary" @click="submit" :disabled="disabled">提交</el-button>
